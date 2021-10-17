@@ -1,0 +1,17 @@
+{
+  "name": "dark-light-mode",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "@types/smoothscroll-polyfill": "^0.3.1",
+    "typescript": "^4.3.2",
+    "vite": "^2.6.4"
+  },
+  "dependencies": {
+    "smoothscroll-polyfill": "^0.4.4"
+  }
+}
