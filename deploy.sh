@@ -5,7 +5,8 @@
 # ensure arguments is passed
  if [ "$#" -eq  "0" ]
    then
-     echo "No arguments supplied"
+     echo "\x1B[01;94m No arguments supplied. Supply sub/path to deploy. \x1B[0m \x1B[01;96m E.g ./deploy darkmode \x1B[0m" 
+     echo "\x1B[01;94m This will deploy to \x1B[0m \x1B[01;93m https://username.github.io/darkmode \x1B[0m  \x1B[01;94m  github page \x1B[0m "
  else
 
 
