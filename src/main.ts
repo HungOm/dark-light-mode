@@ -1,9 +1,16 @@
 import './style.css'
 import * as smoothscroll from 'smoothscroll-polyfill';
-
-// import './smoothScroll.ts';
 smoothscroll.polyfill();
-// window.__forceSmoothScrollPolyfill__ = true;
+
+
+import ProudCodeDark from '../img/undraw_proud_coder_dark.svg';
+import ProudCodeLight from '../img/undraw_proud_coder_light.svg';
+import FeelingProudDark from '../img/undraw_feeling_proud_dark.svg';
+import FeelingProudLight from '../img/undraw_feeling_proud_light.svg';
+import ConceptualIdeaDark from '../img/undraw_conceptual_idea_dark.svg';
+import ConceptualIdeaLight from '../img/undraw_conceptual_idea_light.svg';
+
+
 
 // const app = document.querySelector<HTMLDivElement>('#app')!
 const anchors = document.querySelectorAll('a') as NodeListOf<HTMLAnchorElement>;
@@ -16,9 +23,7 @@ const image2 = document.querySelector('#image2') as HTMLImageElement;
 const image3 = document.querySelector('#image3') as HTMLImageElement;
 const textBox = document.querySelector('#text-box') as HTMLElement;
 
-// interface nodes{
-//   array:[]
-// }
+
 function AddScrollSmoothToNodes(sections:NodeListOf<Element>,anchor:HTMLAnchorElement){
   let anchorId:string = anchor.href.split('#')[1];
   let El =  Array.prototype.slice.call(sections).filter((el:Element)=> anchorId===el.id)
@@ -36,37 +41,24 @@ anchors.forEach((anchor):void=>{
 
 //image mode 
 function imageMode(color:string){
-  image1.src = `/img/undraw_proud_coder_${color}.svg`;
-  image2.src = `/img/undraw_feeling_proud_${color}.svg`;
-  image3.src = `/img/undraw_conceptual_idea_${color}.svg`;
-
+  image1.src = color==='dark'?ProudCodeDark:ProudCodeLight
+  image2.src = color==='dark'?FeelingProudDark:FeelingProudLight
+  image3.src = color==='dark'?ConceptualIdeaDark:ConceptualIdeaLight
 }
 
-// darkmode
-function darkMode(){
-  nav.style.backgroundColor='rgb(0 0 0 /50%)';
-  textBox.style.backgroundColor = 'rgb(255 255 255 /50%)';
-  // textBox.style.color="rgb(0 0 0 /50%)";
-  toggleIcon.children[0].textContent = "Dark Mode";
+const ToggleMode = (isLight:boolean)=>{
+  let darkBackground ='rgb(0 0 0 /50%)';
+  let lightBackground = 'rgb(255 255 255 /50%)';
+  nav.style.backgroundColor = isLight?lightBackground:darkBackground;
+  textBox.style.backgroundColor = isLight?darkBackground:lightBackground;
+  toggleIcon.children[0].textContent = isLight?'Light Mode':'Dark Mode';
+  isLight?toggleIcon.children[1].classList.replace('fa-moon','fa-sun'):
   toggleIcon.children[1].classList.replace('fa-sun','fa-moon')
-  imageMode('dark')
+  isLight?imageMode('light'):imageMode('dark')
+
 
 }
 
-
-
-// light mode 
-function lightMode(){
-  nav.style.backgroundColor='rgb(255 255 255 /50%)';
-  textBox.style.backgroundColor = 'rgb(0 0 0 /50%)';
-  // textBox.style.color="rgb(0 0 0 /50%)";
-  toggleIcon.children[0].textContent = "Light Mode";
-  toggleIcon.children[1].classList.replace('fa-moon','fa-sun')
-  imageMode('light')
-}
-
-
-// light mode 
 
 // switch theme dynamically
 function switchTheme(e:Event){
@@ -74,12 +66,14 @@ function switchTheme(e:Event){
   let event = e.target as HTMLInputElement
   if(event.checked){
     document.documentElement.setAttribute('data-theme','dark')
-    darkMode()
     localStorage.setItem('theme','dark')
+    ToggleMode(false)
   }else{
     document.documentElement.setAttribute('data-theme','light')
-    lightMode()
     localStorage.setItem('theme','light')
+    ToggleMode(true)
+
+
 
   }
 
@@ -89,18 +83,17 @@ toggleSwitch.addEventListener('change',switchTheme)
 
 const currentTheme:string|null= localStorage.getItem('theme');
 
-console.log(currentTheme)
 
 if(currentTheme){
   document.documentElement.setAttribute('data-theme',currentTheme)
-  if (currentTheme==="dark"){
-    toggleSwitch.checked = true;
-    darkMode()
+  if (currentTheme==="light"){
+    toggleSwitch.checked = false;
+    ToggleMode(true)
   }
 
 }else{
-  toggleSwitch.checked = false;
-  lightMode()
+  toggleSwitch.checked = true;
+  ToggleMode(false)
 }
 
 
